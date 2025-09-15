@@ -1,2 +1,26 @@
+# Исполняемые файлы
+program
 hello
 hello-dbg
+
+# Объектные файлы
+*.o
+
+# Временные файлы компиляции
+*.out
+*.gch
+*.tmp
+*.log
+
+# Core dump файлы
+core
+core.*
+
+# Резервные копии
+*~
+*.bak
+*.backup
+
+# Директории сборки
+build/
+dist/
