@@ -1,2 +1,11 @@
-!Kazino-Royal.cpp
-Kazino-Royal*
+# Исполняемые файлы
+program*
+*.exe
+
+# Объектные файлы  
+*.o
+
+# Временные файлы
+*.out
+*.gch
+core
