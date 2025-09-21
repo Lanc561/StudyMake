@@ -1,45 +1,52 @@
-# Makefile для example-3
-# На основе example-2 с улучшениями
+# Makefile для компиляции и запуска Kazino-Royal.cpp
+# На основе example-2 с адаптацией под один файл
 
-.PHONY: all debug release clean
+.PHONY: all build run clean
 
 # Компилятор
 CC = g++
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -std=c++11
 
-# Переменные для разных версий
-RELEASE_FLAGS = -O2 -DNDEBUG
-DEBUG_FLAGS   = -g -O0
-
-# Имена исполняемых файлов
-RELEASE_EXEC = program-release
-DEBUG_EXEC   = program-debug
-
-# Исходные файлы (адаптируйте под файлы example-3)
-SOURCES = main.cpp helper.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
+# Имена файлов
+SOURCE = Kazino-Royal.cpp
+EXEC = kazino-royal
 
 # Цели по умолчанию
-all: debug release
+all: build run
 
-# Debug версия
-debug: $(DEBUG_EXEC)
+# Сборка программы
+build: $(EXEC)
 
-$(DEBUG_EXEC): $(OBJECTS)
-	$(CC) $(DEBUG_FLAGS) $(OBJECTS) -o $(DEBUG_EXEC)
+$(EXEC): $(SOURCE)
+	$(CC) $(CFLAGS) $(SOURCE) -o $(EXEC)
 
-# Release версия
-release: $(RELEASE_EXEC)
+# Запуск программы
+run: $(EXEC)
+	./$(EXEC)
 
-$(RELEASE_EXEC): $(OBJECTS)
-	$(CC) $(RELEASE_FLAGS) $(OBJECTS) -o $(RELEASE_EXEC)
+# Отладочная сборка
+debug: CFLAGS += -g -O0
+debug: $(EXEC)
+	@echo "Собрана отладочная версия с debug символами"
 
-# Компиляция объектных файлов
-%.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+# Релизная сборка
+release: CFLAGS += -O2 -DNDEBUG
+release: $(EXEC)
+	@echo "Собрана оптимизированная релизная версия"
 
 # Очистка
 clean:
-	rm -f $(RELEASE_EXEC) $(DEBUG_EXEC) $(OBJECTS) *.out *.gch core
+	rm -f $(EXEC) *.o *.out *.gch core
 
-.PHONY: all debug release clean
+# Показать помощь
+help:
+	@echo "Доступные цели:"
+	@echo "  make all     - собрать и запустить программу"
+	@echo "  make build   - только собрать программу"
+	@echo "  make run     - только запустить программу"
+	@echo "  make debug   - собрать с debug символами"
+	@echo "  make release - собрать оптимизированную версию"
+	@echo "  make clean   - удалить скомпилированные файлы"
+	@echo "  make help    - показать эту справку"
+
+.PHONY: all build run debug release clean help
